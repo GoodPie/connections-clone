@@ -1,0 +1,13 @@
+{
+  "name": "app",
+  "private": "true",
+  "dependencies": {
+    "@hotwired/turbo-rails": "^7.3.0",
+    "sass": "^1.70.0",
+    "typescript": "^5.3.3"
+  },
+  "scripts": {
+    "build:js": "bun bun.config.js",
+    "watch:js": "bun bun.config.js --watch"
+  }
+}
