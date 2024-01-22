@@ -1,0 +1,2 @@
+class ClueWord < ApplicationRecord
+end

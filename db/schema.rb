@@ -10,8 +10,45 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 0) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_22_125332) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "clue_words", force: :cascade do |t|
+    t.bigint "word_id"
+    t.bigint "clue_id"
+    t.index ["clue_id"], name: "index_clue_words_on_clue_id"
+    t.index ["word_id"], name: "index_clue_words_on_word_id"
+  end
+
+  create_table "clues", force: :cascade do |t|
+    t.string "description"
+  end
+
+  create_table "game_clues", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.bigint "player_id"
+    t.integer "mistakes_made", default: 0
+    t.integer "mistakes_allowed", default: 6
+    t.boolean "game_over", default: false
+    t.boolean "game_won", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_games_on_player_id"
+  end
+
+  create_table "players", force: :cascade do |t|
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "words", force: :cascade do |t|
+    t.string "word"
+  end
 
 end

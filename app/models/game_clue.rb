@@ -1,0 +1,2 @@
+class GameClue < ApplicationRecord
+end
