@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap');
+
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
@@ -13,3 +15,8 @@
  *= require_tree .
  *= require_self
  */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+

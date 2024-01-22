@@ -1,0 +1,21 @@
+<%= turbo_frame_tag "game" do %>
+  <div class="bg-indigo-300">
+    <div class="container mx-auto">
+      <div class="py-5 px-5">
+        <div class="flex flex-col justify-center items-center">
+
+          <div class="my-2">
+            <h1 class="text-4xl font-bold font-arvo">Connections Clone</h1>
+          </div>
+          <div class="my-2 font-arvo">
+            <span>Group words that share a common thread</span>
+          </div>
+
+
+
+          <%= link_to "Play", "game/play", class: "rounded-full px-16 py-3 bg-black text-white my-2" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
