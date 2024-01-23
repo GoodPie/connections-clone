@@ -1,9 +1,22 @@
 <%= turbo_frame_tag "game" do %>
   <!-- List all the words -->
-  <ul>
-    <% @game.game_clues.each do |game_clue| %>
-      <%= debug game_clue.clue_word.word.word %>
-<!--      <li><%#= word %></li>-->
-    <% end %>
-  </ul>
+  <h1>Seed: <%= @game.seed %></h1>
+
+  <div class="flex justify-center items-center">
+
+    <div>
+
+
+    <div class="grid grid-cols-4 auto-rows-max game-10">
+      <% @game.game_clues.shuffle.each do |game_clue| %>
+
+        <div class="m-2 flex items-center justify-center rounded w-40 p-8 bg-red-100 font-bold text-lg">
+          <%= game_clue.clue_word.word.word %>
+        </div>
+
+      <% end %>
+    </div>
+    </div>
+  </div>
+
 <% end %>
