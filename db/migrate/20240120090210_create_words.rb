@@ -10,8 +10,8 @@ class CreateWords < ActiveRecord::Migration[7.1]
     end
 
     create_table :clue_words do |t|
-      t.belongs_to  :word, index: true
-      t.belongs_to :clue, index: true
+      t.references :word, index: true, foreign_key: true
+      t.references :clue, index: true, foreign_key: true
     end
   end
 end
