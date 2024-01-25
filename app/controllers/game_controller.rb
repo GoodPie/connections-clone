@@ -23,16 +23,24 @@ class GameController < ApplicationController
     # Fetch the clues from the database, using the seed to generate 4 random clues
     clues = Clue.order("RANDOM()").limit(CLUE_COUNT)
 
+    # Seed the clue search so we get random ones based on the seed
+    seed = (seed_to_number(@game.seed) / 1000000.0).to_s
+    Clue.connection.execute("SELECT setseed(" + seed + ")")
+
+
     clues.each do |clue|
-      seed = (seed_to_number(@game.seed) / 1000000.0).to_s
-      Clue.connection.execute("SELECT setseed(" + seed + ")")
+
       clue.clue_words.order("RANDOM()").limit(WORDS_PER_CLUE).each do |clue_word|
+
+        # Create the game clue
         game_clue = GameClue.new
         game_clue.clue_word_id = clue_word.id
         game_clue.game_id = @game.id
         game_clue.save
+
       end
     end
+
 
   end
 

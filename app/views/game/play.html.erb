@@ -8,14 +8,22 @@
 
 
     <div class="grid grid-cols-4 auto-rows-max game-10">
-      <% @game.game_clues.shuffle.each do |game_clue| %>
+      <% @game.game_clues.includes({clue_word: [:word]}).shuffle.each do |game_clue| %>
 
-        <div class="m-2 flex items-center justify-center rounded w-40 p-8 bg-red-100 font-bold text-lg">
+        <div class="m-2 flex items-center justify-center rounded w-40 p-8 bg-red-100 hover:bg-red-200 font-bold text-lg cursor-pointer">
           <%= game_clue.clue_word.word.word %>
         </div>
 
       <% end %>
     </div>
+
+      <div class="flex flex-row items-center justify-center mt-2">
+        Mistakes remaining:
+        <% for i in 0..@game.mistakes_allowed.to_i do %>
+          <span class="rounded-full p-2 bg-red-100 mx-1"></span>
+        <% end %>
+      </div>
+
     </div>
   </div>
 
