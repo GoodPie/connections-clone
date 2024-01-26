@@ -6,16 +6,16 @@
 
     <div>
 
+      <input type="hidden" id="max-guesses" value="<%= @words_per_clue %>" />
+      <div class="grid grid-cols-4 auto-rows-max game-10">
+        <% @game.game_clues.includes({ clue_word: [:word] }).shuffle.each do |game_clue| %>
 
-    <div class="grid grid-cols-4 auto-rows-max game-10">
-      <% @game.game_clues.includes({clue_word: [:word]}).shuffle.each do |game_clue| %>
+          <div id="guess-word-<%= game_clue.clue_word.word.id %>" data-word-id="<%= game_clue.clue_word.word.id %>" class="guess-word transition-colors m-2 flex items-center justify-center rounded w-40 p-8 bg-red-100 hover:bg-red-200 font-bold text-lg cursor-pointer">
+            <%= game_clue.clue_word.word.word %>
+          </div>
 
-        <div class="m-2 flex items-center justify-center rounded w-40 p-8 bg-red-100 hover:bg-red-200 font-bold text-lg cursor-pointer">
-          <%= game_clue.clue_word.word.word %>
-        </div>
-
-      <% end %>
-    </div>
+        <% end %>
+      </div>
 
       <div class="flex flex-row items-center justify-center mt-2">
         Mistakes remaining:

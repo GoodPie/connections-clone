@@ -4,10 +4,18 @@ class GameController < ApplicationController
   WORDS_PER_CLUE = 4
   MISTAKES_ALLOWED = 5
 
+
+  def make_guess
+
+
+
+  end
+
   def play
 
     # Create a new, random game
     @game = Game.new
+    @words_per_clue = WORDS_PER_CLUE # Expose to the front end
 
     @game.player_id = Player.find_or_create_by(code: "test").id # For now, we'll default to a test player
 

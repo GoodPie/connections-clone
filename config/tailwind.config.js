@@ -7,6 +7,9 @@ module.exports = {
     './app/javascript/**/*.js',
     './app/views/**/*.{erb,haml,html,slim}'
   ],
+  safelist: [
+      "bg-red-300"
+  ],
   theme: {
     extend: {
       fontFamily: {
