@@ -7,10 +7,15 @@
     <div>
 
       <input type="hidden" id="max-guesses" value="<%= @words_per_clue %>" />
+
+      <div class="flex justify-center my-2">
+        Create four groups of four!
+      </div>
+
       <div class="grid grid-cols-4 auto-rows-max game-10">
         <% @game.game_clues.includes({ clue_word: [:word] }).shuffle.each do |game_clue| %>
 
-          <div id="guess-word-<%= game_clue.clue_word.word.id %>" data-word-id="<%= game_clue.clue_word.word.id %>" class="guess-word transition-colors m-2 flex items-center justify-center rounded w-40 p-8 bg-red-100 hover:bg-red-200 font-bold text-lg cursor-pointer">
+          <div id="guess-word-<%= game_clue.clue_word.word.id %>" data-word-id="<%= game_clue.clue_word.word.id %>" class="guess-word uppercase transition-colors m-1 md:m-2 flex items-center justify-center rounded w-30 md:w-40  p-8 bg-red-100 hover:bg-red-200 break-words font-bold text-sm md:text-lg break  cursor-pointer">
             <%= game_clue.clue_word.word.word %>
           </div>
 
@@ -20,8 +25,14 @@
       <div class="flex flex-row items-center justify-center mt-2">
         Mistakes remaining:
         <% for i in 0..@game.mistakes_allowed.to_i do %>
-          <span class="rounded-full p-2 bg-red-100 mx-1"></span>
+          <span class="rounded-full p-2 bg-red-100 ms-3 "></span>
         <% end %>
+      </div>
+
+      <div class="mt-2 flex items-center justify-center">
+        <button disabled id="submit-button" class="cursor-pointer disabled:text-slate-400 disabled:border-slate-400 rounded-full px-12 py-3 border-2 border-black text-black text-white my-2">
+          Submit
+        </button>
       </div>
 
     </div>

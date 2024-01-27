@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_23_041304) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_27_033339) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,6 +47,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_23_041304) do
     t.index ["player_id"], name: "index_games_on_player_id"
   end
 
+  create_table "guesses", force: :cascade do |t|
+    t.bigint "game_id", null: false
+    t.bigint "word_id"
+    t.bigint "{:index=>true, :foreign_key=>true, :null=>false}_id"
+    t.integer "guess_number", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_guesses_on_game_id"
+    t.index ["word_id"], name: "index_guesses_on_word_id"
+    t.index ["{:index=>true, :foreign_key=>true, :null=>false}_id"], name: "idx_on_{:index=>true, :foreign_key=>true, :null=>fa_1a0036bdd1"
+  end
+
   create_table "players", force: :cascade do |t|
     t.string "code"
     t.datetime "created_at", null: false
@@ -62,4 +74,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_23_041304) do
   add_foreign_key "game_clues", "clue_words"
   add_foreign_key "game_clues", "games"
   add_foreign_key "games", "players"
+  add_foreign_key "guesses", "games"
 end

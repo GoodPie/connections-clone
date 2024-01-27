@@ -40,10 +40,18 @@ const addNewGuess = (id: number) => {
             // Only make the guess if we haven't guess the max already
             if (currentGuesses < guessCount) {
                 selectElement(guessElement);
+
+                // Enable the button if guesses === guessCount
+                if (currentGuesses + 1 === guessCount) {
+                    (<HTMLInputElement> document.getElementById("submit-button")).disabled = false;
+                }
             }
 
         } else {
             deselectElement(guessElement);
+
+            // Always disable when we de-select
+            (<HTMLInputElement> document.getElementById("submit-button")).disabled = true;
         }
 
     } catch (e) {
