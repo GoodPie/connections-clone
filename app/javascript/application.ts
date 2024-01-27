@@ -9,6 +9,12 @@ const ID_DATA_ATTRIBUTE = "wordId"
 const GUESS_SELECTED_COLOR = "bg-red-300";
 const GUESS_NOT_SELECTED_COLOR = "bg-red-100";
 
+
+interface IGuess {
+    word_id: number,
+}
+
+
 const selectElement = (element: HTMLElement) => {
     element.classList.remove(GUESS_NOT_SELECTED_COLOR);
     element.classList.add(GUESS_SELECTED_COLOR);
@@ -25,6 +31,38 @@ const deselectElement = (element: HTMLElement) => {
     element.removeAttribute(`data-${GUESS_DATA_ATTRIBUTE}`);
 }
 
+const makeGuess = async () => {
+
+    // Get all the words that are selected
+    const currentGuesses = document.querySelectorAll(`[${`data-${GUESS_DATA_ATTRIBUTE}`}]`);            const guessCount = parseInt((<HTMLInputElement> document.getElementById("max-guesses")).value, 10);
+    const maxGuesses = parseInt((<HTMLInputElement> document.getElementById("max-guesses")).value, 10);
+
+    if (currentGuesses.length !== maxGuesses) return;
+
+    const guessIds = Array.from(currentGuesses).map((guess: HTMLElement) => {
+        const word_id = parseInt(guess.dataset[ID_DATA_ATTRIBUTE], 10)
+        return {
+            word_id
+        } as IGuess;
+    });
+
+
+    const response = await fetch("game/guess", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({"guesses": guessIds})
+    });
+
+    console.debug(response);
+
+
+}
+
+
+
+
 const addNewGuess = (id: number) => {
 
     try {
@@ -34,15 +72,15 @@ const addNewGuess = (id: number) => {
         if (!guessElement.hasAttribute(`data-${GUESS_DATA_ATTRIBUTE}`)) {
 
 
-            const guessCount = parseInt((<HTMLInputElement> document.getElementById("max-guesses")).value, 10);
+            const maxGuesses = parseInt((<HTMLInputElement> document.getElementById("max-guesses")).value, 10);
             const currentGuesses = document.querySelectorAll(`[${`data-${GUESS_DATA_ATTRIBUTE}`}]`).length;
 
             // Only make the guess if we haven't guess the max already
-            if (currentGuesses < guessCount) {
+            if (currentGuesses < maxGuesses) {
                 selectElement(guessElement);
 
                 // Enable the button if guesses === guessCount
-                if (currentGuesses + 1 === guessCount) {
+                if (currentGuesses + 1 === maxGuesses) {
                     (<HTMLInputElement> document.getElementById("submit-button")).disabled = false;
                 }
             }
@@ -73,10 +111,17 @@ const initializeButtonOnClick = () => {
             const wordId = button.dataset[ID_DATA_ATTRIBUTE];
             addNewGuess(parseInt(wordId, 10));
         })
+    });
+}
 
-    })
+
+const initializeSubmitButton = () => {
+    document.querySelector("#submit-button").addEventListener("click", () => {
+        makeGuess();
+    });
 }
 
 document.addEventListener("turbo:frame-render", () => {
     initializeButtonOnClick();
+    initializeSubmitButton();
 })

@@ -3,15 +3,34 @@ class GameController < ApplicationController
   CLUE_COUNT = 4
   WORDS_PER_CLUE = 4
   MISTAKES_ALLOWED = 5
-
+  skip_before_action :verify_authenticity_token
 
   def make_guess
 
+    # Get the guess IDs as params
+    word_guesses = params[:guesses]
+    game_id = session[:game_id]
+
+    # Get the game by the ID, including the game clues
+    game = Game.includes(game_clues: [
+      clue_word: [
+        :clue,
+        :word
+      ]
+    ]).find_by(id: game_id)
+
+    all_game_clues = game.game_clues.map { |gc| gc.clue_word }
+
+
+    render status: 200, json: all_game_clues.to_json
 
 
   end
 
   def play
+
+    # Reset the session
+    reset_session
 
     # Create a new, random game
     @game = Game.new
@@ -48,6 +67,9 @@ class GameController < ApplicationController
 
       end
     end
+
+    # Add the game ID to the session variable
+    session[:game_id] = @game.id
 
 
   end
